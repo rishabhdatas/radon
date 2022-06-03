@@ -1,41 +1,58 @@
 const express = require('express');
-const myHelper = require('../util/helper')
-const underscore = require('underscore')
 
 const router = express.Router();
 
-router.get('/test-me', function (req, res) {
-    myHelper.printDate()
-    myHelper.getCurrentMonth()
-    myHelper.getCohortData()
-    let firstElement = underscore.first(['Sabiha','Akash','Pritesh'])
-    console.log('The first element received from underscope function is '+firstElement)
-    res.send('My first ever api!')
-});
-
-router.get('/hello', function (req, res) {
-   
-    res.send('Hello there!')
-});
-
-router.get('/candidates', function(req, res){
-    console.log('Query paramters for this request are '+JSON.stringify(req.query))
-    let gender = req.query.gender
-    let state = req.query.state
-    let district = req.query.district
-    console.log('State is '+state)
-    console.log('Gender is '+gender)
-    console.log('District is '+district)
-    let candidates = ['Akash','Suman']
-    res.send(candidates)
+router.get('/movies', (req, res) =>{
+    let movies = ['Lagaan', 'Avengers', '3 idiots', 'Batman'];
+    res.send(movies);
 })
 
-router.get('/candidates/:canidatesName', function(req, res){
-    console.log('The request objects is '+ JSON.stringify(req.params))
-    console.log('Candidates name is '+req.params.canidatesName)
-    res.send('Done')
+    router.get('/movies/:indexNumber', (req, res) =>{
+    let movies = ['Superman', 'Avengers', 'Spiderman', 'Batman'];
+    if(req.params.indexNumber>=4){
+      res.send("use a valid index");
+      return;
+    }
+    res.send(movies[req.params.indexNumber]);  
 })
 
+router.get('/films', (req, res) => {
+    let filmLists = [{
+    "id": 1,
+    "name": "The Shining"
+}, {
+    "id": 2,
+    "name": "Incendies"
+}, {
+    "id": 3,
+    "name": "Rang de Basanti"
+}, {
+    "id": 4,
+    "name": "Finding Nemo"
+}]
 
+    res.send(filmLists);
+})
+
+router.get('/films/:indexNumber', (req, res) => {
+    let filmLists = [{
+        "id": 1,
+        "name": "The Shining"
+    }, {
+        "id": 2,
+        "name": "Incendies"
+    }, {
+        "id": 3,
+        "name": "Rang de Basanti"
+    }, {
+        "id": 4,
+        "name": "Finding Nemo"
+    }]
+    if(req.params.indexNumber>=4){
+        res.send("No movie exists with this id");
+        return;
+    }
+    res.send(filmLists[req.params.indexNumber]);
+})
 module.exports = router;
 // adding this comment for no reason
